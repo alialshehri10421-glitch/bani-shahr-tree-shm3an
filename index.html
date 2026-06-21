@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>مشجرة أنساب قبائل بني شهر</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Amiri',serif;background:#1c1a17;color:#f0e6d0;min-height:100vh;}
+.hero{background:#252320;border-bottom:1px solid rgba(200,169,110,.3);padding:28px 20px 20px;text-align:center;}
+.basmala{display:block;font-size:.9rem;color:#6a5a40;margin-bottom:10px;}
+.hero h1{font-size:1.8rem;font-weight:700;color:#c8a96e;}
+.divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px auto 8px;}
+.dline{height:1px;width:50px;background:#7a5c2e;}
+.ddot{width:5px;height:5px;border-radius:50%;background:#c8a96e;}
+.credit{font-size:.75rem;color:#6a5a40;line-height:1.8;}
+.btns{margin-top:12px;display:flex;justify-content:center;gap:12px;}
+.btn1{font-family:'Amiri',serif;font-size:.88rem;background:#c8a96e;color:#1c1a17;border:none;padding:7px 20px;border-radius:20px;cursor:pointer;font-weight:700;}
+.btn2{font-family:'Amiri',serif;font-size:.88rem;background:transparent;color:#c8a96e;border:1px solid rgba(200,169,110,.5);padding:7px 20px;border-radius:20px;cursor:pointer;}
+#area{padding:30px 20px 80px 20px;padding-bottom:60px;overflow-y:auto;overflow-x:hidden;}
+/* الصناديق */
+.box{
+  display:inline-block;
+  border:1px solid rgba(200,169,110,.4);
+  padding:8px 16px;
+  font-family:'Amiri',serif;
+  font-weight:700;
+  font-size:1rem;
+  background:#2e2b27;
+  color:#f0e6d0;
+  white-space:nowrap;
+  text-align:center;
+  border-radius:4px;
+  cursor:default;
+  position:relative;
+  z-index:2;
+}
+.box.clickable{cursor:pointer;}
+.box.clickable:hover{background:#3a3530;border-color:rgba(200,169,110,.8);color:#c8a96e;}
+.box.open{background:#c8a96e;color:#1c1a17;border-color:#c8a96e;}
+.box.root{font-size:1.3rem;padding:10px 32px;}
+.hint{text-align:center;padding:10px;font-size:.8rem;color:#6a5a40;}
+#searchBar{padding:10px 20px;display:flex;flex-direction:column;align-items:center;position:relative;}
+#searchInput{font-family:'Amiri',serif;font-size:1rem;padding:8px 16px;border-radius:20px;border:1px solid rgba(200,169,110,.5);background:#252320;color:#f0e6d0;width:280px;outline:none;direction:rtl;}
+#searchInput::placeholder{color:#6a5a40;}
+#searchResults{position:absolute;top:52px;width:280px;max-height:220px;overflow-y:auto;border-radius:8px;z-index:100;}
+.sResult{display:block;padding:8px 14px;cursor:pointer;color:#f0e6d0;border-bottom:1px solid rgba(200,169,110,.15);background:#252320;font-family:'Amiri',serif;font-size:.95rem;}
+.sResult:hover{background:#3a3530;color:#c8a96e;}
+.box.selected{background:#c8a96e;color:#1c1a17;border-color:#c8a96e;}
+#breadcrumb{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:10px;background:#1c1a17;color:#c8a96e;font-size:1rem;border-top:1px solid #3a3020;min-height:36px;z-index:999;}
+</style>
+</style>
+</head>
+<body>
+<div class="hero">
+  <span class="basmala">بسم الله الرحمن الرحيم</span>
+  <h1>المشجرة الإلكترونية لقبيلة بني شَهر بن الحَجر</h1>
+  <div class="divider"><div class="dline"></div><div class="ddot"></div><div class="dline"></div></div>
+  <p class="credit">مأخوذ من بحث التأصيل الصحيح في نسب قبائل بني شَهر بن الحَجر الصريح<br><span style="font-size:1rem;color:#6a5a40;">لـ علي عبدالله بن شمعان آل مغلف</span></p>
+</div>
+<div id="searchBar">
+  <input type="text" id="searchInput" placeholder="ابحث عن فخذك..."/>
+  <div id="searchResults"></div>
+</div>
+<div id="area"></div>
+<div class="hint">اضغط على أي اسم لعرض اقسامه ..</div>
+<script>
+var T={i:"hajar",n:"الحَجر",k:[{i:"shaher",n:"شَهر",k:[{i:"rabia",n:"ربيعة",k:[{i:"nasr",n:"نصر",k:[{i:"kultham",n:"كلثم",k:[{i:"kalathima",n:"الكلاثمة",k:[{i:"a1",n:"أهل القرية",k:[]},{i:"a2",n:"آل سلامة",k:[]},{i:"a3",n:"آل عمر",k:[]},{i:"a4",n:"بني روق",k:[]},{i:"a5",n:"آل الشنظوف",k:[]},{i:"a6",n:"آل طوير",k:[]}]},{i:"muwadaa",n:"الموادعة",k:[{i:"b1",n:"آل حانش",k:[]},{i:"b2",n:"الشطر",k:[]},{i:"b3",n:"آل عميش",k:[]},{i:"b4",n:"آل عمير",k:[]},{i:"b5",n:"آل غانم",k:[]},{i:"b6",n:"آل الغسن",k:[]}]},{i:"alsaadi",n:"آل الصعدي",k:[{i:"amro_saqf",n:"عمرو السقف",k:[{i:"c1",n:"عرعرة",k:[]},{i:"c2",n:"آل عون",k:[]},{i:"c3",n:"آل دعاس",k:[]},{i:"c4",n:"آل شخيت",k:[]},{i:"c5",n:"آل حودل",k:[]}]},{i:"amro_shaaf",n:"عمرو الشعف",k:[{i:"d1",n:"الرهوة",k:[]},{i:"d2",n:"الملحاء",k:[]},{i:"d3",n:"العشر",k:[]}]}]}]},{i:"bakr",n:"بكر",k:[{i:"bakr_namas",n:"بني بكر -النماص-",k:[{i:"alghunan",n:"الغنان",k:[{i:"e1",n:"آل نييح",k:[]},{i:"e2",n:"آل شريم",k:[]},{i:"e3",n:"آل القرى",k:[]},{i:"e4",n:"آل أبدل",k:[]},{i:"e5",n:"آل الوسط",k:[]}]},{i:"awlad_ali",n:"أولاد علي",k:[{i:"f1",n:"الحارقة",k:[]},{i:"f2",n:"آل حبيبة",k:[]},{i:"f3",n:"آل حمام",k:[]},{i:"f4",n:"الجهوة",k:[]}]}]},{i:"fudul",n:"الفضول",k:[{i:"g1",n:"الجرسة",k:[]},{i:"g2",n:"بلحصين",k:[]},{i:"g3",n:"آل مفتاح",k:[]},{i:"g4",n:"آل سمحان",k:[]}]},{i:"bakr_badia",n:"بني بكر -البادية-",k:[{i:"h1",n:"آل بالفلاح",k:[]},{i:"h2",n:"آل برية",k:[]},{i:"h3",n:"آل سعاد",k:[]},{i:"h4",n:"آل غشام",k:[]}]},{i:"bakr_halba",n:"بني بكر -حلباء-",k:[{i:"bani_hashim_qbl",n:"بني هاشم -القبل-",k:[{i:"i1",n:"عاتي",k:[]},{i:"i2",n:"آل بالزين",k:[]}]},{i:"maysari",n:"آل ميسري",k:[]}]},{i:"dahmaan",n:"آل دحمان",k:[{i:"j1",n:"آل يزيد",k:[]},{i:"j2",n:"آل لسان",k:[]},{i:"j3",n:"المشرقة",k:[]}]}]},{i:"athla",n:"أثلة",k:[{i:"aal_muhya",n:"آل محيا",k:[{i:"k1",n:"آل سالم",k:[]},{i:"k2",n:"العمارين",k:[]},{i:"k3",n:"آل معلا",k:[]},{i:"k4",n:"آل سميح",k:[]},{i:"k5",n:"آل الدميثة",k:[]}]},{i:"aal_shaikh",n:"آل الشيخ",k:[{i:"l1",n:"آل مسلم",k:[]},{i:"l2",n:"آل بو عقيل",k:[]},{i:"l3",n:"الشرمة",k:[]},{i:"l4",n:"آل عويقل",k:[]},{i:"l5",n:"آل خضار",k:[]},{i:"l6",n:"آل حلال",k:[]},{i:"l7",n:"آل جمان",k:[]}]}]},{i:"qushair",n:"قشير",k:[{i:"qs1",n:"السراة",k:[{i:"m1",n:"البزواء",k:[]},{i:"m2",n:"العامشة",k:[]},{i:"m3",n:"آل هية",k:[]},{i:"m4",n:"آل زينب",k:[]}]},{i:"qs2",n:"البادية",k:[{i:"n1",n:"الخمسة",k:[]},{i:"n2",n:"الزكرة",k:[]},{i:"n3",n:"الغوثة",k:[]}]}]}]},{i:"harith",n:"الحارث",k:[{i:"alawas",n:"الأواس",k:[{i:"jubaiha",n:"جبيهة",k:[{i:"o1",n:"آل دهناء",k:[]},{i:"o2",n:"آل بهيش",k:[]},{i:"o3",n:"آل علبة",k:[]},{i:"o4",n:"آل فليته",k:[]},{i:"o5",n:"الرأس",k:[]}]}]},{i:"yazid",n:"يزيد -الشعفين-",k:[{i:"byaala",n:"آل بن يعلى",k:[{i:"p1",n:"آل عريف",k:[]},{i:"p2",n:"آل حزيبر",k:[]},{i:"p3",n:"آل مرحب",k:[]},{i:"p4",n:"آل رزيق",k:[]}]},{i:"bghrab",n:"بني غراب",k:[{i:"q1",n:"آل مجادب",k:[]},{i:"q2",n:"آل حسين",k:[]},{i:"q3",n:"آل محدل",k:[]}]},{i:"mbnyazid",n:"آل محمد بن يزيد",k:[{i:"r1",n:"آل مروّح",k:[]},{i:"r2",n:"آل معافا",k:[]},{i:"r3",n:"آل صفوان",k:[]},{i:"r4",n:"آل زخران",k:[]}]},{i:"wadi",n:"قبائل وادي الخير",k:[{i:"alaa",n:"آل علاء",k:[{i:"s1",n:"آل موسى",k:[]},{i:"s2",n:"آل عامر",k:[]},{i:"s3",n:"آل عياف",k:[]},{i:"s4",n:"آل صعبان",k:[]},{i:"s5",n:"آل مصبح",k:[]},{i:"s6",n:"آل سعد",k:[]},{i:"s7",n:"آل مقشش",k:[]},{i:"s8",n:"آل خضير",k:[]},{i:"s9",n:"آل راشد",k:[]},{i:"s10",n:"آل ذيبان",k:[]},{i:"s11",n:"آل عامر بن معافا",k:[]}]},{i:"majhani",n:"آل مجحيني",k:[{i:"qubaib",n:"آل قبيب",k:[{i:"t1",n:"آل دربيش",k:[]},{i:"t2",n:"آل جابر",k:[]},{i:"t3",n:"عضاهي",k:[]},{i:"t4",n:"آل مجدوع",k:[]},{i:"t5",n:"آل مسعر",k:[]},{i:"t6",n:"آل احمد بن علي",k:[]}]},{i:"musa_m",n:"آل موسى",k:[{i:"u1",n:"آل فية",k:[]},{i:"u2",n:"آل عبدة",k:[]},{i:"u3",n:"آل زاهرة",k:[]},{i:"u4",n:"آل حسين",k:[]},{i:"u5",n:"آل علي بن الجحيني",k:[]}]},{i:"anqaa",n:"آل العنقاء",k:[]}]}]}]},{i:"aasi",n:"عاصي -العوصاء-",k:[{i:"v1",n:"قرية العوصاء",k:[]},{i:"v2",n:"آل يحمد",k:[]}]}]},{i:"amer",n:"عامر",k:[{i:"saad",n:"سعد",k:[{i:"mashhoor",n:"مشهور",k:[{i:"ms1",n:"السراة",k:[{i:"w1",n:"آل أيدي",k:[]},{i:"w2",n:"آل حلس",k:[]},{i:"w3",n:"آل التيس",k:[]},{i:"w4",n:"آل حيي",k:[]},{i:"w5",n:"منزل السوق",k:[]}]},{i:"mt",n:"تهامة",k:[{i:"x1",n:"الأفاقمة",k:[]}]}]},{i:"kinana",n:"كنانة",k:[{i:"y1",n:"آل ثابت",k:[]},{i:"y2",n:"آل حصين",k:[]},{i:"y3",n:"آل بن جرادة",k:[]},{i:"y4",n:"آل خضاري",k:[]},{i:"y5",n:"آل جبر",k:[]},{i:"y6",n:"آل الظبية",k:[]},{i:"y7",n:"الأنصاب",k:[]},{i:"y8",n:"آل فويس",k:[]}]}]},{i:"abd",n:"عبد",k:[{i:"daheim",n:"دحيم",k:[{i:"bahish",n:"آل بهيش",k:[{i:"z1",n:"آل صوفان",k:[]},{i:"z2",n:"آل لاحق",k:[]},{i:"z3",n:"آل مثور",k:[]},{i:"z4",n:"آل هشال",k:[]},{i:"z5",n:"آل نيارة",k:[]},{i:"z6",n:"آل نبية",k:[]},{i:"z7",n:"آل بلعدل",k:[]},{i:"z8",n:"آل الشعف",k:[]}]},{i:"alnahi",n:"آل النهي",k:[{i:"aa1",n:"آل معمع",k:[]},{i:"aa2",n:"العماسية",k:[]},{i:"aa3",n:"آل مشني",k:[]},{i:"aa4",n:"آل سلام",k:[]},{i:"aa5",n:"آل إمفلت",k:[]},{i:"aa6",n:"العرق",k:[]},{i:"aa7",n:"أهل القرى",k:[]}]}]},{i:"husain",n:"الحصين",k:[{i:"bnoufl",n:"آل بن نوفل",k:[{i:"bb1",n:"آل لعلاء",k:[]},{i:"bb2",n:"آل مطير",k:[]},{i:"bb3",n:"آل سروي",k:[]}]},{i:"hanash",n:"آل حنش",k:[{i:"cc1",n:"آل موسى",k:[]},{i:"cc2",n:"آل عيسى",k:[]}]},{i:"zaher",n:"آل زاهر",k:[{i:"dd1",n:"آل يسعد",k:[]},{i:"dd2",n:"آل عفراء",k:[]},{i:"dd3",n:"آل البردة",k:[]}]}]},{i:"lam",n:"لام",k:[{i:"lams",n:"السراة",k:[{i:"ee1",n:"آل الوطاء",k:[]},{i:"ee2",n:"آل جبران",k:[]},{i:"ee3",n:"آل مجمل",k:[]},{i:"ee4",n:"آل بيضان",k:[]}]},{i:"lamt",n:"تهامة",k:[{i:"muhba",n:"محبة",k:[{i:"ff1",n:"آل وافي",k:[]},{i:"ff2",n:"الحسانية",k:[]}]}]}]}]},{i:"widad",n:"وطاد",k:[{i:"mushabaa",n:"مشبعة -ثربان-",k:[{i:"gg1",n:"آل لعلا",k:[]},{i:"gg2",n:"آل مجامد",k:[]},{i:"gg3",n:"الطلاليع",k:[]}]},{i:"quray",n:"قريع -ثربان-",k:[{i:"muhammad",n:"محمد",k:[{i:"hh1",n:"آل حزمة",k:[]},{i:"hh2",n:"آل راشد",k:[]},{i:"hh3",n:"آل سلمان",k:[]},{i:"hh4",n:"آل غيلان",k:[]}]},{i:"juaid",n:"جعيد",k:[{i:"ii1",n:"الزوكة",k:[]},{i:"ii2",n:"العواجرة",k:[]},{i:"ii3",n:"القحمة",k:[]}]}]},{i:"atir",n:"عتير -أثرب-",k:[{i:"jj1",n:"آل يعلاء",k:[]},{i:"jj2",n:"آل وحيش",k:[]},{i:"jj3",n:"آل يحمد",k:[]}]},{i:"husain_a",n:"حسين -أثرب-",k:[{i:"kk1",n:"آل شنيف",k:[]},{i:"kk2",n:"آل عاصم",k:[]},{i:"kk3",n:"آل محجوبة",k:[]},{i:"kk4",n:"آل يماني",k:[]}]}]},{i:"sufyan",n:"سفيان",k:[{i:"ll1",n:"آل خرماء",k:[]},{i:"ll2",n:"العصمة",k:[]},{i:"ll3",n:"المحلف",k:[]},{i:"ll4",n:"آل مجايش",k:[]}]}]},{i:"yasar",n:"يسار -بني جار-",k:[{i:"sar",n:"السراة",k:[{i:"arwa",n:"أروى -بني جار-",k:[{i:"mm1",n:"آل عمر",k:[]},{i:"mm2",n:"آل جهيل",k:[]}]},{i:"nazila",n:"نازلة",k:[{i:"nn1",n:"آل تمران",k:[]},{i:"nn2",n:"آل غرمان",k:[]},{i:"nn3",n:"آل سعيد",k:[]},{i:"nn4",n:"آل عنفر",k:[]},{i:"nn5",n:"آل محضان",k:[]},{i:"nn6",n:"آل حواش",k:[]},{i:"nn7",n:"آل حابش",k:[]}]}]},{i:"tah",n:"تهامة",k:[{i:"hadila",n:"آل حديلة",k:[{i:"umtalib",n:"آل إم طالب",k:[{i:"oo1",n:"آل عبدالله",k:[]},{i:"oo2",n:"آل جابر",k:[]},{i:"oo3",n:"آل عامر",k:[]},{i:"oo4",n:"آل سعيد",k:[]},{i:"oo5",n:"آل قادم",k:[]},{i:"oo6",n:"آل شبيلي",k:[]}]},{i:"mughal",n:"آل مغلفق",k:[{i:"pp1",n:"آل هشلول",k:[]},{i:"pp2",n:"آل شايع",k:[]},{i:"pp3",n:"آل دمنة",k:[]},{i:"pp4",n:"آل طالع",k:[]},{i:"pp5",n:"آل عيسى",k:[]}]}]},{i:"hasan_y",n:"آل حسن",k:[{i:"qq1",n:"آل سالم",k:[]},{i:"qq2",n:"آل عيسى",k:[]},{i:"qq3",n:"آل مشري",k:[]},{i:"qq4",n:"آل مهزم",k:[]}]},{i:"jamil",n:"آل جميل",k:[{i:"rr1",n:"آل ملحة",k:[]},{i:"rr2",n:"آل مغبس",k:[]},{i:"rr3",n:"آل عياف",k:[]},{i:"rr4",n:"آل هشال",k:[]},{i:"rr5",n:"آل جاهمة",k:[]},{i:"rr6",n:"آل ضعيفة",k:[]},{i:"rr7",n:"آل حسن بن مشيب",k:[]}]},{i:"halwa",n:"آل حلوة",k:[{i:"ss1",n:"آل طراش",k:[]},{i:"ss2",n:"آل عبيد",k:[]},{i:"ss3",n:"آل عامر",k:[]},{i:"ss4",n:"آل موسى",k:[]},{i:"ss5",n:"آل ضيف الله",k:[]}]},{i:"shina",n:"آل شنية",k:[{i:"tt1",n:"آل مفرح",k:[]},{i:"tt2",n:"آل جابر",k:[]}]}]}]}]},{i:"malek",n:"مالك",k:[{i:"zayd",n:"زيد",k:[{i:"imkaber",n:"آل إمكابر",k:[{i:"zarahi",n:"آل الزرعي",k:[{i:"uu1",n:"آل مريع",k:[]},{i:"uu2",n:"آل معوض",k:[]},{i:"uu3",n:"آل جرو",k:[]},{i:"uu4",n:"آل مضحي",k:[]},{i:"uu5",n:"آل عبدالله",k:[]}]},{i:"yarboa",n:"آل يربوع",k:[{i:"vv1",n:"آل شعثان",k:[]},{i:"vv2",n:"آل إم قصير",k:[]},{i:"vv3",n:"آل بن يعلى",k:[]},{i:"vv4",n:"آل مصم",k:[]}]},{i:"sha3bain",n:"آل الشعبين",k:[{i:"ww1",n:"آل هيازع",k:[]},{i:"ww2",n:"آل وحيش",k:[]},{i:"ww3",n:"آل إم دريبي",k:[]},{i:"ww4",n:"آل سعد الله",k:[]},{i:"ww5",n:"الفقهاء",k:[]},{i:"ww6",n:"آل سليمان",k:[]},{i:"ww7",n:"آل جحيش",k:[]},{i:"ww8",n:"آل إم يتيم",k:[]}]},{i:"munzar",n:"آل المنظر",k:[{i:"xx1",n:"آل عقيل",k:[]},{i:"xx2",n:"آل شجون",k:[]},{i:"xx3",n:"الفنادية",k:[]},{i:"xx4",n:"آل زارعة",k:[]},{i:"xx5",n:"آل محزوم",k:[]},{i:"xx6",n:"آل إم عاري",k:[]},{i:"xx7",n:"آل إم شباني",k:[]},{i:"xx8",n:"الفقهاء العظمة",k:[]}]},{i:"naas",n:"آل نعص",k:[{i:"yy1",n:"آل طفافة",k:[]},{i:"yy2",n:"آل ذهيب",k:[]},{i:"yy3",n:"آل بركات",k:[]},{i:"yy4",n:"آل سليمان",k:[]},{i:"yy5",n:"آل إمجرب",k:[]},{i:"yy6",n:"آل محفوظ",k:[]}]},{i:"harem",n:"حارم",k:[{i:"mushhaka",n:"المشحكة",k:[{i:"zz1",n:"آل يحي",k:[]},{i:"zz2",n:"آل البقوة",k:[]},{i:"zz3",n:"المجبرة",k:[]},{i:"zz4",n:"آل علي بن أحمد",k:[]}]},{i:"maaraba",n:"المعربة",k:[{i:"qawabira",n:"القوابرة",k:[{i:"aaa1",n:"آل الجلافعة",k:[]},{i:"aaa2",n:"آل قتادة",k:[]},{i:"aaa3",n:"آل عطاء",k:[]},{i:"aaa4",n:"آل زرعان",k:[]},{i:"aaa5",n:"آل باغي",k:[]}]},{i:"jaafira",n:"الجعافرة",k:[{i:"bbb1",n:"آل سعد",k:[]},{i:"bbb2",n:"آل زاهر",k:[]},{i:"bbb3",n:"آل قشاش",k:[]}]}]}]}]}]},{i:"taym",n:"التيم",k:[{i:"harith_t",n:"الحارث",k:[{i:"ajrad",n:"الأجرد -المجاردة-",k:[{i:"saaid_a",n:"آل سعيد بن علي",k:[{i:"ccc1",n:"الرواجحة",k:[]},{i:"ccc2",n:"آل عذيبة",k:[]},{i:"ccc3",n:"آل ثالبة",k:[]},{i:"ccc4",n:"آل عوض",k:[]},{i:"ccc5",n:"الأزاورة",k:[]},{i:"ccc6",n:"آل خيرة",k:[]}]},{i:"yahya_t",n:"آل يحيى",k:[{i:"ddd1",n:"آل عشية",k:[]},{i:"ddd2",n:"آل حزبان",k:[]},{i:"ddd3",n:"آل مغالفة",k:[]},{i:"ddd4",n:"العفالقة",k:[]}]}]},{i:"mukhallad",n:"مخلد",k:[{i:"suaab",n:"صعب",k:[{i:"eee1",n:"آل مجدوع",k:[]},{i:"eee2",n:"آل هلال",k:[]},{i:"eee3",n:"آل الدولج",k:[]},{i:"eee4",n:"آل القضبة",k:[]}]},{i:"kumait",n:"كميت",k:[{i:"fff1",n:"آل موسى",k:[]},{i:"fff2",n:"آل حنيش",k:[]},{i:"fff3",n:"آل كحيلة",k:[]},{i:"fff4",n:"آل مفتي",k:[]}]}]}]},{i:"qasim_t",n:"قاسم",k:[{i:"ajda3",n:"الأجدع",k:[{i:"kharij",n:"خارج",k:[{i:"ggg1",n:"آل مغلف",k:[]},{i:"ggg2",n:"آل شعثاء",k:[]}]},{i:"faris",n:"فارس",k:[{i:"hhh1",n:"آل غنية",k:[]},{i:"hhh2",n:"آل مروّح",k:[]},{i:"hhh3",n:"آل العيباء",k:[]}]},{i:"hasan_q",n:"حسن",k:[{i:"iii1",n:"آل صيوي",k:[]},{i:"iii2",n:"آل مشرق",k:[]}]},{i:"khashram",n:"خشرم",k:[{i:"jjj1",n:"بلدة خشرم",k:[]},{i:"jjj2",n:"آل تلاع",k:[]},{i:"jjj3",n:"آل خازم",k:[]},{i:"jjj4",n:"آل مرحب",k:[]}]}]},{i:"husain_q",n:"حسين",k:[{i:"hamid",n:"الحميد",k:[{i:"kkk1",n:"آل ناجية",k:[]},{i:"kkk2",n:"آل يحمد",k:[]},{i:"kkk3",n:"آل مفلح",k:[]}]},{i:"saaub",n:"الصعوب",k:[{i:"lll1",n:"آل مليح",k:[]},{i:"lll2",n:"آل الشميلة",k:[]},{i:"lll3",n:"آل بالسعود",k:[]}]}]},{i:"zuhair",n:"زهير",k:[{i:"balil",n:"آل باليل",k:[{i:"mmm1",n:"آل جرادة",k:[]},{i:"mmm2",n:"آل جودة",k:[]},{i:"mmm3",n:"آل شوطان",k:[]},{i:"mmm4",n:"آل يعلاء",k:[]}]},{i:"kharman",n:"آل خرمان",k:[{i:"nnn1",n:"آل فلاح",k:[]},{i:"nnn2",n:"آل حقيين",k:[]},{i:"nnn3",n:"آل خميس",k:[]},{i:"nnn4",n:"آل مغايب",k:[]}]}]}]},{i:"umar_t",n:"عمر",k:[{i:"samid",n:"صميد",k:[{i:"hasan_r",n:"آل حسن -الرهوة-",k:[{i:"ooo1",n:"آل مقبل",k:[]},{i:"ooo2",n:"آل يحمد",k:[]},{i:"ooo3",n:"آل عطيف",k:[]},{i:"ooo4",n:"آل حبوان",k:[]},{i:"ooo5",n:"آل خميس",k:[]}]},{i:"yahomad_m",n:"آل يحمد -الملحاء-",k:[{i:"ppp1",n:"آل ذياب",k:[]},{i:"ppp2",n:"آل موسى",k:[]},{i:"ppp3",n:"آل وادعة",k:[]}]},{i:"ghia",n:"آل غية",k:[{i:"qqq1",n:"آل صالح",k:[]},{i:"qqq2",n:"آل بو سفرة",k:[]},{i:"qqq3",n:"آل محمد بن علي",k:[]}]}]},{i:"shaghib",n:"شغيب",k:[{i:"dumow",n:"الضمو -الحدباء-",k:[{i:"rrr1",n:"آل صبيخة",k:[]},{i:"rrr2",n:"آل يحيى",k:[]},{i:"rrr3",n:"آل عبدالله",k:[]},{i:"rrr4",n:"آل محرز",k:[]}]},{i:"qaff",n:"القف",k:[{i:"sss1",n:"آل دهمان",k:[]},{i:"sss2",n:"آل وذرة",k:[]},{i:"sss3",n:"آل غلفة",k:[]},{i:"sss4",n:"آل الشقي",k:[]}]}]},{i:"mamlah",n:"مملح",k:[{i:"ttt1",n:"السادة",k:[]},{i:"ttt2",n:"الفقهاء",k:[]},{i:"ttt3",n:"آل زارع",k:[]},{i:"ttt4",n:"آل عجلان",k:[]},{i:"ttt5",n:"آل لبدان",k:[]},{i:"ttt6",n:"المحلف",k:[]}]},{i:"moh_u",n:"محمد",k:[{i:"zaidan",n:"زيدان",k:[{i:"uuu1",n:"لحبي",k:[]},{i:"uuu2",n:"القيم",k:[]},{i:"uuu3",n:"الحلقة",k:[]},{i:"uuu4",n:"الريامة",k:[]},{i:"uuu5",n:"آل حشيش",k:[]},{i:"uuu6",n:"آل سلطان",k:[]}]}]}]},{i:"kafaf",n:"كفاف",k:[{i:"aamir_k",n:"عامر",k:[{i:"walid",n:"وليد",k:[{i:"shaq_y",n:"الشق اليماني",k:[{i:"vvv1",n:"آل مسلمة",k:[]},{i:"vvv2",n:"آل رحال",k:[]},{i:"vvv3",n:"آل عظية",k:[]},{i:"vvv4",n:"آل مرزوق",k:[]}]},{i:"khathim",n:"آل خثيم",k:[{i:"www1",n:"المدانة",k:[]},{i:"www2",n:"العقيقة",k:[]}]},{i:"wadi_k",n:"أهل الوادي",k:[{i:"xxx1",n:"خميس العرق",k:[]},{i:"xxx2",n:"آل ناشر",k:[]},{i:"xxx3",n:"آل رحمة",k:[]}]}]}]},{i:"ali_k",n:"علي",k:[{i:"alalha",n:"الأجلح -ليلح-",k:[{i:"saqf",n:"السقف",k:[{i:"yyy1",n:"الخضراء",k:[]},{i:"yyy2",n:"آل طوير",k:[]},{i:"yyy3",n:"آل غران",k:[]},{i:"yyy4",n:"أبو قبيس",k:[]}]},{i:"shaaf",n:"الشعف",k:[{i:"zzz1",n:"آل قحطان",k:[]},{i:"zzz2",n:"آل جميرة",k:[]},{i:"zzz3",n:"آل حبشي",k:[]},{i:"zzz4",n:"بنو مليح",k:[]}]}]}]}]}]},{i:"jahdum",n:"جهضم -الجهاضمة-",k:[{i:"AB1",n:"المنزل القذال",k:[]},{i:"AB2",n:"الطرف",k:[]},{i:"AB3",n:"القرية",k:[]},{i:"AB4",n:"الفرعة",k:[]},{i:"AB5",n:"الخربة",k:[]}]},{i:"marwan",n:"مروان",k:[{i:"aws_m",n:"أوس -بني يوس-",k:[{i:"AC1",n:"آل الدقايق",k:[]},{i:"AC2",n:"آل الزفين",k:[]},{i:"AC3",n:"آل نشوان",k:[]},{i:"AC4",n:"آل ذرنا",k:[]}]},{i:"thawab",n:"ثواب",k:[{i:"jubair",n:"جبير",k:[{i:"alqura",n:"القرى",k:[{i:"AD1",n:"آل رزيق",k:[]},{i:"AD2",n:"آل معوطة",k:[]}]},{i:"khadura",n:"الخاضرة",k:[{i:"AE1",n:"شوكان",k:[]},{i:"AE2",n:"الطرف",k:[]},{i:"AE3",n:"الحدب",k:[]}]}]}]}]}]},{i:"nizar",n:"نزار",k:[{i:"thabit",n:"ثابت",k:[{i:"nadeeb",n:"آل نديب",k:[{i:"AF1",n:"العدوة",k:[]},{i:"AF2",n:"العرش",k:[]},{i:"AF3",n:"الفرعة",k:[]}]},{i:"akram",n:"آل أكرم",k:[{i:"AG1",n:"قرية أكرم",k:[]},{i:"AG2",n:"آل زمام",k:[]}]},{i:"moh_n",n:"آل محمد",k:[{i:"AH1",n:"آل السرو",k:[]},{i:"AH2",n:"آل السحل",k:[]},{i:"AH3",n:"آل يانف",k:[]}]}]},{i:"abs",n:"عبس",k:[{i:"AI1",n:"آل الحيد",k:[]},{i:"AI2",n:"آل عمار",k:[]},{i:"AI3",n:"آل عبيد",k:[]},{i:"AI4",n:"الحصنة",k:[]}]},{i:"omayr",n:"عمير -العمرة-",k:[{i:"AJ1",n:"آل سليمان",k:[]},{i:"AJ2",n:"آل سريحة",k:[]},{i:"AJ3",n:"آل فرحة",k:[]},{i:"AJ4",n:"آل هدية",k:[]},{i:"AJ5",n:"آل لصم",k:[]},{i:"AJ6",n:"القذال",k:[]},{i:"AJ7",n:"آل صالح",k:[]}]},{i:"rajaa",n:"رجاع",k:[{i:"binryaa",n:"آل بن رياع",k:[{i:"sar_r",n:"السراة",k:[{i:"AK1",n:"الدحض",k:[]},{i:"AK2",n:"الشهوم",k:[]},{i:"AK3",n:"آل ليمان",k:[]}]},{i:"bad_r",n:"البادية",k:[{i:"AL1",n:"آل سخيطة",k:[]},{i:"AL2",n:"آل السعدية",k:[]},{i:"AL3",n:"آل الشيخة",k:[]}]}]}]}]}]}]};
+
+/* ======================================================
+   النظام الجديد: Canvas-based layout
+   - نحسب إحداثيات كل عقدة رياضياً
+   - نرسم الصناديق بـ position:absolute
+   - نرسم الخطوط بـ SVG
+   - عند الفتح/الإغلاق نعيد حساب كل شيء من الصفر
+   - لكن كل صندوق له نفس المعرّف فيمكن قراءة حالة scroll المستخدم
+====================================================== */
+
+var BOX_H   = 38;   // ارتفاع الصندوق
+var GAP_V   = 56;   // مسافة عمودية بين المستويات
+var PAD_H   = 10;   // padding أفقي بين الأبناء
+
+// قياس عرض النص
+var _mc = document.createElement('canvas').getContext('2d');
+_mc.font = 'bold 16px Amiri, serif';
+function mw(text){ return Math.ceil(_mc.measureText(text).width) + 32; }
+
+// حساب العرض الكلي لشجرة فرعية
+function subtreeW(node){ return mw(node.n); }
+
+var opened = {hajar:true, shaher:true};
+var boxes  = {}; // id -> DOM element
+var selected=null;
+function updateBC(id){var path=getPath(id);var bc=document.getElementById('breadcrumb');if(bc&&path)bc.textContent=path.join(' ← ');}
+var svgEl, canvasEl;
+
+function findNode(id, n){
+  if(!n) n=T;
+  if(n.i===id) return n;
+  for(var j=0;j<(n.k||[]).length;j++){var r=findNode(id,n.k[j]);if(r)return r;}
+  return null;
+}
+function findPar(id,n,p){
+  if(!n)n=T;if(p===undefined)p=null;
+  if(n.i===id)return p;
+  for(var j=0;j<(n.k||[]).length;j++){var r=findPar(id,n.k[j],n);if(r!==undefined)return r;}
+  return undefined;
+}
+
+// وضع العقد وحساب إحداثياتها
+var positions = {}; // id -> {x, y, w}
+
+function layout(node, x, y){
+  var w = mw(node.n);
+  var cx = x + w/2;
+  positions[node.i] = {x: x, y: y, w: w, cx: cx};
+  if(opened[node.i] && node.k && node.k.length){
+    var childY = y + BOX_H + GAP_V;
+    var total = 0;
+    for(var j=0;j<node.k.length;j++) total += mw(node.k[j].n) + PAD_H;
+    total -= PAD_H;
+    var cur = cx + total/2;
+    for(var j=0;j<node.k.length;j++){
+    cur -= mw(node.k[j].n);
+      layout(node.k[j], cur, childY);
+      cur -= PAD_H;
+    }
+  }
+}
+
+function render(){
+  // احسب التخطيط
+  positions = {};
+  layout(T, 0, 0);
+  var areaW=area.clientWidth||800;
+  var sh=Math.round(areaW/2-positions[T.i].cx);
+  for(var id in positions){positions[id].x+=sh;positions[id].cx+=sh;}
+  var mn=0;for(var id in positions){if(positions[id].x<mn)mn=positions[id].x;}
+  if(mn<0){for(var id in positions){positions[id].x-=mn;positions[id].cx-=mn;}}
+
+  // حدد أبعاد الـ canvas
+  var maxX=0, maxY=0;
+  for(var id in positions){
+    var p=positions[id];
+    if(p.x+p.w > maxX) maxX=p.x+p.w;
+    if(p.y+BOX_H > maxY) maxY=p.y+BOX_H;
+  }
+  maxX += 20; maxY += 20;
+
+  canvasEl.style.width = Math.max(maxX, area.clientWidth||800)+'px';
+  canvasEl.style.height = maxY+'px';
+  canvasEl.style.position = 'relative';
+
+  // ارسم الخطوط SVG
+  svgEl.setAttribute('width', maxX);
+  svgEl.setAttribute('height', maxY);
+  svgEl.innerHTML = '';
+
+  function line(x1,y1,x2,y2){
+    var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',Math.round(x1)); l.setAttribute('y1',Math.round(y1));
+    l.setAttribute('x2',Math.round(x2)); l.setAttribute('y2',Math.round(y2));
+    l.setAttribute('stroke','#c8a96e'); l.setAttribute('stroke-width','2');
+    l.setAttribute('stroke-linecap','round');
+    svgEl.appendChild(l);
+  }
+
+  function drawLines(node){
+    if(!opened[node.i] || !node.k || !node.k.length) return;
+    var p = positions[node.i];
+    if(!p) return;
+    var py = p.y + BOX_H;
+    var midY = py + GAP_V/2;
+
+    // خط عمودي من الأب
+    line(p.cx, py, p.cx, midY);
+
+    var kids = node.k;
+    if(kids.length === 1){
+      var cp = positions[kids[0].i];
+      if(cp) line(p.cx, midY, cp.cx, midY + GAP_V/2);
+    } else {
+      // خط أفقي
+      var firstP = positions[kids[0].i];
+      var lastP  = positions[kids[kids.length-1].i];
+      if(firstP && lastP){
+        line(firstP.cx, midY, lastP.cx, midY);
+        for(var j=0;j<kids.length;j++){
+          var kp=positions[kids[j].i];
+          if(kp) line(kp.cx, midY, kp.cx, kp.y);
+        }
+      }
+    }
+    for(var j=0;j<kids.length;j++) drawLines(kids[j]);
+  }
+  drawLines(T);
+
+  // ارسم الصناديق
+  // أولاً: أزل الصناديق القديمة
+  var oldBoxes = canvasEl.querySelectorAll('.box');
+  for(var i=0;i<oldBoxes.length;i++) canvasEl.removeChild(oldBoxes[i]);
+
+  function drawBoxes(node){
+    var p = positions[node.i];
+    if(!p) return;
+    var hasK = node.k && node.k.length > 0;
+    var isR  = node.i==='hajar';
+    var isO  = !!opened[node.i];
+
+    var el = boxes[node.i];
+    if(!el){
+      el = document.createElement('div');
+      el.className='box'+(isR?' root':'')+(hasK?' clickable':'');
+      el.textContent=node.n;
+      boxes[node.i] = el;
+      if(hasK){
+        (function(nid){
+          el.onclick = function(e){
+            e.stopPropagation();
+            if(opened[nid]){
+              delete opened[nid];
+              closeAll(findNode(nid));
+            } else {
+              var par=findPar(nid);
+              if(par&&par.k) par.k.forEach(function(s){if(s.i!==nid){delete opened[s.i];closeAll(s);}});
+              opened[nid]=true;
+            }
+             render();
+            updateBC(nid);
+          };
+        })(node.i);
+      }
+    }
+if(!hasK){
+  (function(nid){
+    el.onclick=function(e){
+      e.stopPropagation();
+      selected=nid;
+      for(var bid in boxes)boxes[bid].classList.remove('selected');
+      if(boxes[nid])boxes[nid].classList.add('selected');
+      render();
+      updateBC(nid);
+    };
+  })(node.i);
+}
+    // حدّث الكلاسات
+    el.className='box'+(isR?' root':'')+(isO&&hasK?' open':'')+(hasK?' clickable':'')+(selected===node.i?' selected':'');
+    el.style.cssText = 'left:'+p.x+'px;top:'+p.y+'px;width:'+p.w+'px;height:'+BOX_H+'px;position:absolute;line-height:'+BOX_H+'px;padding:0 12px;';
+    canvasEl.appendChild(el);
+
+    if(opened[node.i] && hasK)
+      node.k.forEach(function(k){drawBoxes(k);});
+  }
+  drawBoxes(T);
+}
+
+function closeAll(node){
+  if(!node) return;
+  delete opened[node.i];
+  if(node.k) node.k.forEach(function(k){closeAll(k);});
+}
+
+function openAllFn(node){
+  if(!node) node=T;
+  if(node.k&&node.k.length){
+    opened[node.i]=true;
+    node.k.forEach(function(k){openAllFn(k);});
+  }
+}
+
+// إنشاء العناصر
+var area = document.getElementById('area');
+canvasEl = document.createElement('div');
+canvasEl.style.cssText = 'position:relative;direction:ltr;';
+svgEl = document.createElementNS('http://www.w3.org/2000/svg','svg');
+svgEl.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;';
+canvasEl.appendChild(svgEl);
+area.appendChild(canvasEl);
+
+function getPath(id,node,path){
+  if(!node)node=T;if(!path)path=[];
+  if(node.i===id)return [node.n].concat(path);
+  for(var j=0;j<(node.k||[]).length;j++){
+    var r=getPath(id,node.k[j],[node.n].concat(path));
+    if(r)return r;
+  }
+  return null;
+}
+
+var aliases={'بلجدع':'ajda3','بلجرد':'ajrad','برياع':'binryaa'};
+
+function normalize(s){
+  if(!s)return'';
+  s=s.replace(/[\u064B-\u065F\u0640]/g,'');
+  s=s.replace(/[أإآ]/g,'ا');
+  s=s.replace(/ى/g,'ا');
+  s=s.replace(/ئ/g,'ي');
+  s=s.replace(/ة/g,'ه');
+  s=s.replace(/(^|\s)(آل|بني)\s*/g,' ');
+  return s.trim();
+}
+function searchTree(q,node,res){
+  if(!node)node=T;if(!res)res=[];
+  if(node.n&&normalize(node.n).indexOf(normalize(q))!==-1)res.push(node);
+  (node.k||[]).forEach(function(k){searchTree(q,k,res);});
+  return res;
+}
+function openPathTo(target,node){
+  if(!node)node=T;
+  if(node.i===target.i){opened[node.i]=true;return true;}
+  for(var j=0;j<(node.k||[]).length;j++){
+    if(openPathTo(target,node.k[j])){opened[node.i]=true;return true;}
+  }
+  return false;
+}
+var si=document.getElementById('searchInput');
+var sr=document.getElementById('searchResults');
+si.addEventListener('input',function(){
+  sr.innerHTML='';
+  var q=si.value.trim();
+  if(!q)return;
+  var res=searchTree(q);
+  var nq=normalize(q);
+  for(var ak in aliases){
+    if(nq.indexOf(normalize(ak))!==-1||normalize(ak).indexOf(nq)!==-1){
+      var an=findNode(aliases[ak]);
+      if(an){var dup=false;for(var ri=0;ri<res.length;ri++)if(res[ri].i===an.i)dup=true;if(!dup)res.unshift(an);}
+    }
+  }
+  res.slice(0,10).forEach(function(node){
+    var d=document.createElement('div');
+    d.className='sResult';
+    var p=getPath(node.i);
+    d.innerHTML='<div>'+node.n+'</div><div style="font-size:.72rem;color:#a08040;margin-top:3px;">'+(p?p.join(' ← '):'')+' </div>';
+    d.onclick=function(){
+      opened={};
+      openPathTo(node);
+      selected=node.i;
+      render();
+      updateBC(node.i);
+      sr.innerHTML='';si.value='';
+      setTimeout(function(){
+        var el=boxes[node.i];
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});
+      },150);
+    };
+    sr.appendChild(d);
+  });
+});
+render();
+
+document.getElementById('btnOpen').onclick  = function(){openAllFn(T);render();};
+document.getElementById('btnClose').onclick = function(){
+  opened={hajar:true,shaher:true};
+  boxes={};
+  render();
+};
+</script>
+<div id="breadcrumb"></div>
+</body>
+</html>
