@@ -182,12 +182,12 @@ function render(){
     var areaW=area.clientWidth||800;
     var sh=Math.round(areaW/2-positions[T.i].cx);
     for(var id in positions){positions[id].x+=sh;positions[id].cx+=sh;}
-    var mn=0;for(var id in positions){if(positions[id].x<mn)mn=positions[id].x;}
-    if(mn<0){for(var id in positions){positions[id].x-=mn;positions[id].cx-=mn;}}
     if(positions['nizar']){
       positions['nizar'].y += BOX_H + GAP_V;
     }
   }
+  var mn=0;for(var id in positions){if(positions[id].x<mn)mn=positions[id].x;}
+  if(mn<0){for(var id in positions){positions[id].x-=mn;positions[id].cx-=mn;}}
   // حدد أبعاد الـ canvas
   var maxX=0, maxY=0;
   for(var id in positions){
